@@ -8,8 +8,7 @@ const router = express.Router();
 // Example proxy route for any external API
 router.all('/external/:service/:path(*)', async (req: Request, res: Response) => {
   try {
-    const { service } = req.params;
-    const path = req.params[0];
+    const { service, path } = req.params;
     
     // Map services to their base URLs and API keys
     const serviceConfig: Record<string, ProxyConfig> = {
