@@ -9,6 +9,7 @@ const router = express.Router();
 router.all('/external/:service/:path(*)', async (req: Request, res: Response) => {
   try {
     const { service, path } = req.params;
+    console.log(service, path);
     
     // Map services to their base URLs and API keys
     const serviceConfig: Record<string, ProxyConfig> = {
@@ -61,6 +62,7 @@ router.all('/external/:service/:path(*)', async (req: Request, res: Response) =>
       params: req.query,
       timeout: 30000,
     });
+    console.log(config.baseUrl, path);
 
     res.status(response.status).json(response.data);
   } catch (error) {
