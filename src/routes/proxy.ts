@@ -6,7 +6,7 @@ import type { ProxyConfig } from '@/types';
 const router = express.Router();
 
 // Example proxy route for any external API
-router.all('/external/:service/*', async (req: Request, res: Response) => {
+router.all('/external/:service/:path(*)', async (req: Request, res: Response) => {
   try {
     const { service } = req.params;
     const path = req.params[0];
