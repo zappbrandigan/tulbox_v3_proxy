@@ -1,0 +1,28 @@
+POST http://localhost:3001/api/external/langDetect/detect-language-batch
+Content-Type: application/json
+
+{
+  "texts": [
+    {
+      "text":"Test"
+    },
+    {
+      "text":"The Test"
+    },
+    {
+      "text":"A prueba"
+    },
+    {
+      "text":"Desafios"
+    }
+  ]
+}
+
+###
+GET http://localhost:3001/api/external/imdbMain/api/autocomplete/?q=test
+
+###
+GET http://localhost:3001/api/external/imdbDetails/api/imdb/tt27477888
+
+###
+GET http://localhost:3001/api/external/imdbMain/api/title/get-akas?tt=tt27477888
