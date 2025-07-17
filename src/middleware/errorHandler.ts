@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+import logger from '@/logging/logger.js';
 import type { Request, Response, NextFunction } from 'express';
 
 interface CustomError extends Error {
@@ -7,19 +11,27 @@ interface CustomError extends Error {
 
 export const errorHandler = (
   err: CustomError,
-  _req: Request,
+  req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
-  console.error('Error occurred:', err);
-
   const status = err.status || err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
+
+  console.error('Error occurred:', err);
+
+  logger.error(message, {
+    status,
+    method: req.method,
+    path: req.originalUrl,
+    ip: req.ip,
+    stack: err.stack,
+    headers: req.headers,
+  });
 
   res.status(status).json({
     error: 'Server Error',
     message,
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
-  next();
 };
