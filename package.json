@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "start": "node dist/server.js",
-    "preview": "npm run build && npm run start",
-    "type-check": "tsc --noEmit"
+  "dev": "tsx watch src/server.ts",  
+  "build": "vite build && tsc",        
+  "start": "node dist/server.js",      
+  "preview": "npm run build && npm run start",
+  "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@logtail/node": "^0.5.5",
     "axios": "^1.6.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -23,6 +24,7 @@
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.10",
     "@types/node": "^20.10.4",
+    "tsx": "^4.20.3",
     "typescript": "^5.3.3",
     "vite": "^7.0.0"
   }
