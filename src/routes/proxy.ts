@@ -63,6 +63,8 @@ router.all(
         method: req.method,
         path: `/${path}`,
         query: req.query,
+        ip: req.ip,
+        userAgent: req.headers['user-agent'],
       });
 
       const response = await axios({
@@ -92,6 +94,8 @@ router.all(
           query: req.query,
           data: error.response?.data,
           headers: error.config?.headers,
+          ip: req.ip,
+          userAgent: req.headers['user-agent'],
         });
 
         res.status(status).json(message);
@@ -101,6 +105,8 @@ router.all(
           service: req.params.service,
           path: req.params.path,
           query: req.query,
+          ip: req.ip,
+          userAgent: req.headers['user-agent'],
         });
 
         res.status(500).json({
