@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from '@/logging/logger.js';
+import { getHeaderString, getUserEnv } from '@/utils/request';
 import { SOURCES, TYPES, type LogContext } from '@/logging/types.js';
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.post('/', express.text({ type: '*/*' }), async (req, res) => {
     data = {},
     source = SOURCES.FRONTEND,
     type = TYPES.USER_EVENT,
+    sessionId,
   } = body ?? {};
 
   if (logKey !== process.env.LOGGING_SECRET) {
@@ -32,6 +34,8 @@ router.post('/', express.text({ type: '*/*' }), async (req, res) => {
       source,
       path: req.headers.referer || 'unknown',
       ip: req.ip,
+      sessionId,
+      userEnv: getUserEnv(req),
     });
     return res.status(204).end();
   }
@@ -46,9 +50,9 @@ router.post('/', express.text({ type: '*/*' }), async (req, res) => {
     event: body.event,
     source,
     type,
-    path: req.headers.referer || 'unknown',
+    path: req.headers.referer || req.originalUrl,
     ip: req.ip,
-    userAgent: req.headers['user-agent'],
+    userEnv: getUserEnv(req),
   } as LogContext;
 
   switch (level) {

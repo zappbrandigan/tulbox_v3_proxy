@@ -4,12 +4,13 @@ dotenv.config();
 import express from 'express';
 import axios from 'axios';
 import logger from '@/logging/logger.js';
+import { getUserEnv } from '@/utils/request';
 import type { Request, Response } from 'express';
 import type { ProxyConfig } from '@/types';
 
 const router = express.Router();
 
-// Example proxy route for any external API
+// proxy route for any external API
 router.all(
   '/external/:service/:path(*)',
   async (req: Request, res: Response) => {
@@ -64,7 +65,7 @@ router.all(
         path: `/${path}`,
         query: req.query,
         ip: req.ip,
-        userAgent: req.headers['user-agent'],
+        userEnv: getUserEnv(req),
       });
 
       const response = await axios({
@@ -95,7 +96,7 @@ router.all(
           data: error.response?.data,
           headers: error.config?.headers,
           ip: req.ip,
-          userAgent: req.headers['user-agent'],
+          userEnv: getUserEnv(req),
         });
 
         res.status(status).json(message);
@@ -106,7 +107,7 @@ router.all(
           path: req.params.path,
           query: req.query,
           ip: req.ip,
-          userAgent: req.headers['user-agent'],
+          userEnv: getUserEnv(req),
         });
 
         res.status(500).json({

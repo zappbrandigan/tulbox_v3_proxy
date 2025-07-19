@@ -51,12 +51,17 @@ export interface LogContext {
     target: UserEventTarget;
     value?: string | number | boolean;
   };
-  userId?: string;
-  sessionId?: string;
   feature?: string;
   ip?: string;
   path?: string;
-  userAgent?: string;
+  userEnv?: {
+    sessionId?: string;
+    platform?: string;
+    userAgent?: string;
+    language?: string;
+    doNotTrack?: string;
+    cookiesEnabled?: boolean;
+  };
   [key: string]: unknown;
 }
 

@@ -35,6 +35,12 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// For extra logging info
+app.use((_req, res, next) => {
+  res.setHeader('Accept-CH', 'Sec-CH-UA-Platform');
+  next();
+});
+
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({
