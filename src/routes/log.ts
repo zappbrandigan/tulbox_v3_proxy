@@ -28,7 +28,6 @@ router.post('/', express.text({ type: '*/*' }), async (req, res) => {
     type = TYPES.USER_EVENT,
     sessionId,
   } = body ?? {};
-
   if (logKey !== process.env.LOGGING_SECRET) {
     logger.warn('Unauthorized frontend log attempt', {
       source,
@@ -52,6 +51,7 @@ router.post('/', express.text({ type: '*/*' }), async (req, res) => {
     type,
     path: req.headers.referer || req.originalUrl,
     ip: req.ip,
+    sessionId,
     userEnv: getUserEnv(req),
   } as LogContext;
 
