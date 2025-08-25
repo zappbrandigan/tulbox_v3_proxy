@@ -9,6 +9,7 @@ import logger from './logging/logger.js';
 import { proxyRouter } from './routes/proxy.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { logRouter } from './routes/log.js';
+import { fileRouter } from './routes/internal.js';
 import type { Request, Response } from 'express';
 
 const app = express();
@@ -55,6 +56,9 @@ app.use('/log', logRouter);
 
 // API routes
 app.use('/api', proxyRouter);
+
+// Data routes
+app.use('/files', fileRouter);
 
 // 404 handler
 app.use('*', (req: Request, res: Response) => {
